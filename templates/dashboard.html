@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель клиента</title>
+</head>
+<body>
+    <h1>Добро пожаловать, {{ user }}</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Номер счета</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Дата рождения</th>
+                <th>ИНН</th>
+                <th>ФИО ответственного</th>
+                <th>Статус</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+            <tr>
+                <td>{{ client[0] }}</td>
+                <td>{{ client[1] }}</td>
+                <td>{{ client[2] }}</td>
+                <td>{{ client[3] }}</td>
+                <td>{{ client[4] }}</td>
+                <td>{{ client[5] }}</td>
+                <td>{{ client[6] }}</td>
+                <td>{{ client[7] }}</td>
+                <td>{{ client[8] }}</td>
+                <td>
+                    <form action="/update_status" method="post">
+                        <input type="hidden" name="client_id" value="{{ client[0] }}">
+                        <select name="status">
+                            <option value="Не в работе" {% if client[8] == 'Не в работе' %} selected {% endif %}>Не в работе</option>
+                            <option value="В работе" {% if client[8] == 'В работе' %} selected {% endif %}>В работе</option>
+                            <option value="Отказ" {% if client[8] == 'Отказ' %} selected {% endif %}>Отказ</option>
+                            <option value="Сделка закрыта" {% if client[8] == 'Сделка закрыта' %} selected {% endif %}>Сделка закрыта</option>
+                        </select>
+                        <input type="submit" value="Обновить статус">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
